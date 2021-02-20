@@ -6,21 +6,23 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.Entities
-{   
-    // Domenowy model posta.
-    // Domain post model.
+{
+    // PL Domenowy model posta dziedziczący po klasie AuditableEntity.
+    // EN Domain post model inheriting from the AuditableEntity class.
     public class Post : AuditableEntity
     {
-        // Zmiana test git.
-        // Iniciacja właściowości klasy Post.
+        // PL Iniciacja właściowości klasy Post.
+        // EN Proper initiation of the Post class.
         public int Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
 
-        // Konstrukor bezparametrowy Post.
+        // PL Konstrukor bezparametrowy Post.
+        // EN Parameterless constructor Post.
         public Post() { }
 
-        // Konstruktor parametrowy Post.               xD
+        // PL Konstruktor Post z argumentami id, title, content.
+        // EN Post constructor with arguments id, title, content.
         public Post(int id, string title, string content)
         {
             (Id, Title, Content) = (id, title, content);    
