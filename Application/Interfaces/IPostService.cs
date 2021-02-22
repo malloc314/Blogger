@@ -17,5 +17,6 @@ namespace Application.Interfaces
         IEnumerable<PostDto> GetAllPosts();
         PostDto GetPostById(int id);
         IEnumerable<PostDto> GetPostByTitle(string title);
+        PostDto AddNewPost(CreatePostDto newPost);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Dto;
+using Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,9 +24,8 @@ namespace WebAPI.Controllers
             _postService = postService;
         }
 
-        // PL Użycie Metody GetAllPosts() z interfesju IPostService z implementacją PostService. Punkt końctowy.
-        // EN Using the GetAllPosts() method from the IPostService interface with the PostService implementation.
-        // GET => api/Posts/id
+        // PL Gdy przyjdzie żądanie http GET na adres "api/Posts", zostanie uruchomiona metoda Get().
+        // EN If a GET http request comes to the address "api/Posts", the Get() method will be run.
         [HttpGet]
         public ActionResult Get()
         {
@@ -33,9 +33,8 @@ namespace WebAPI.Controllers
             return Ok(posts);
         }
 
-        // PL Użycie Metody GetPostById(id) z interfesju IPostService z implementacją PostService.
-        // EN Using the GetPostById(id) method from the IPostService interface with the PostService implementation.
-        // GET => api/Posts/id
+        // PL Gdy przyjdzie żądanie http GET na adres "api/Posts/Search/id", zostanie uruchomiona metoda Get().
+        // EN If a GET http request comes to the address "api/Posts/Search/id", the Get() method will be run.
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
@@ -46,14 +45,23 @@ namespace WebAPI.Controllers
             }
             return Ok(posts);
         }
-        // PL Użycie Metody GetPostByTitle(title) z interfesju IPostService z implementacją PostService.
-        // EN Using the GetPostByTitle(title) method from the IPostService interface with the PostService implementation.
-        // GET => api/Posts/Search/title.
+
+        // PL Gdy przyjdzie żądanie http GET na adres "api/Posts/Search/title", zostanie uruchomiona metoda Get().
+        // EN If a GET http request comes to the address "api/Posts/Search/title", the Get() method will be run.
         [HttpGet("Search/{title}")]
         public ActionResult Get(string title)
         {
             var posts = _postService.GetPostByTitle(title);
             return Ok(posts);
+        }
+
+        // PL Gdy przyjdzie żądanie http POST na adres "api/Posts", zostanie uruchomiona metoda Create(). 
+        // EN If a POST http request comes to the address "api/Posts", the Create() method will be run.
+        [HttpPost]
+        public ActionResult Create(CreatePostDto newPost)
+        {
+            var post = _postService.AddNewPost(newPost);
+            return Created($"api/Posts/{post.Id}", post);
         }
     }
 }

@@ -84,5 +84,32 @@ namespace Application.Services
             }
             return searched.AsEnumerable();
         }
+
+        // PL 
+        // EN
+        public PostDto AddNewPost(CreatePostDto newPost)
+        {
+            if (string.IsNullOrEmpty(newPost.Title))
+            {
+                throw new Exception("Please enter title");
+            }
+            else
+            {
+                var post = new Post()
+                {
+                    Title = newPost.Title,
+                    Content = newPost.Content
+                };
+                
+                _postRepository.Add(post);
+
+                return new PostDto()
+                {
+                    Id = post.Id,
+                    Title = post.Title,
+                    Content = post.Content
+                };
+            }
+        }
     }
 }
