@@ -63,5 +63,23 @@ namespace WebAPI.Controllers
             var post = _postService.AddNewPost(newPost);
             return Created($"api/Posts/{post.Id}", post);
         }
+
+        // PL Gdy przyjdzie żądanie http PUT na adres "api/Posts", zostanie uruchomiona metoda Update(). 
+        // EN If a PUT http request comes to the address "api/Posts", the Update() method will be run.
+        [HttpPut]
+        public ActionResult Update(UpdatePostDto updatePost)
+        {
+            _postService.UpdatePost(updatePost);
+            return NoContent();
+        }
+
+        // PL Gdy przyjdzie żądanie http DELETE na adres "api/Posts/id", zostanie uruchomiona metoda Remove(). 
+        // EN If a DELETE http request comes to the address "api/Posts/id", the Remove() method will be run.
+        [HttpDelete]
+        public ActionResult Delete(int id)
+        {
+            _postService.DeletePost(id);
+            return NoContent();
+        }
     }
 }
