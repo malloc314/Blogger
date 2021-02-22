@@ -1,11 +1,13 @@
 using Application.Interfaces;
 using Application.Services;
 using Domain.Interfaces;
+using Infrastructure.Data;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -34,6 +36,9 @@ namespace WebAPI
             // EN Assigning the implementation to the interface.
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<IPostService, PostService>();
+
+            services.AddDbContext<BloggerContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("BloggerCS")));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
