@@ -85,8 +85,8 @@ namespace Application.Services
             return searched.AsEnumerable();
         }
 
-        // PL 
-        // EN
+        // PL Implementacja metody AddNewPost(newPost), zwraca nowo dodanego posta i mapuje właściwości CreatePostDto do Post i Post do PostDto.
+        // EN Implementing the AddNewPost(newPost) method, a newly added post, and maps CreatePostDto props to Post and Post to PostDto.
         public PostDto AddNewPost(CreatePostDto newPost)
         {
             if (string.IsNullOrEmpty(newPost.Title))
@@ -112,21 +112,20 @@ namespace Application.Services
             }
         }
 
-        // PL 
-        // EN
+        // PL Implementacja metody UpdatePost(updatePost), przypisuje wartości updatePost do existingPost.
+        // EN Implementing the UpdatePost (updatePost) method, assigns the updatePost values ​​to existingPost.
         public void UpdatePost(UpdatePostDto updatePost)
         {
             var existingPost = _postRepository.GetById(updatePost.Id);
 
-            //var post = new Post
-            //{
-            //    existingPost.Id = updatePost.Id,
-            //    existingPost.Content = updatePost.Content
-            //};
+            existingPost.Id = updatePost.Id;
+            existingPost.Content = updatePost.Content;
 
-            //_postRepository.Update(post);
+            _postRepository.Update(existingPost);
         }
 
+        // PL Implementacja metody DeletePost(id), usuwa posta o danym id.
+        // EN Implementing the DeletePost(id) method, delete post with given id.
         public void DeletePost(int id)
         {
             var post = _postRepository.GetById(id);
