@@ -26,7 +26,7 @@ namespace Application.Services
         }
 
         // PL Implementacja metody GetAllPosts(), zwraca wszystkie posty i mapuje właściwości Post na PostDto.
-        // EN Implementation the GetAllPosts () method, returns all posts, and maps Post properties to PostDto.
+        // EN Implementation the GetAllPosts() method, returns all posts, and maps Post properties to PostDto.
         public IEnumerable<PostDto> GetAllPosts()
         {
             var posts = _postRepository.GetAll();
@@ -113,7 +113,7 @@ namespace Application.Services
         }
 
         // PL Implementacja metody UpdatePost(updatePost), przypisuje wartości updatePost do existingPost.
-        // EN Implementing the UpdatePost (updatePost) method, assigns the updatePost values ​​to existingPost.
+        // EN Implementing the UpdatePost(updatePost) method, assigns the updatePost values ​​to existingPost.
         public void UpdatePost(UpdatePostDto updatePost)
         {
             var existingPost = _postRepository.GetById(updatePost.Id);
