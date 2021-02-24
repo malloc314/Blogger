@@ -27,18 +27,18 @@ namespace WebAPI.Controllers
         // PL Gdy przyjdzie żądanie http GET na adres "api/Posts", zostanie uruchomiona metoda Get().
         // EN If a GET http request comes to the address "api/Posts", the Get() method will be run.
         [HttpGet]
-        public ActionResult Get()
+        public async Task<ActionResult> Get()
         {
-            var posts = _postService.GetAllPosts();
+            var posts = await _postService.GetAllPostsAsync();
             return Ok(posts);
         }
 
         // PL Gdy przyjdzie żądanie http GET na adres "api/Posts/Search/id", zostanie uruchomiona metoda Get().
         // EN If a GET http request comes to the address "api/Posts/Search/id", the Get() method will be run.
         [HttpGet("{id}")]
-        public ActionResult Get(int id)
+        public async Task<ActionResult> Get(int id)
         {
-            var posts = _postService.GetPostById(id);
+            var posts = await _postService.GetPostByIdAsync(id);
             if (posts == null)
             {
                 return NotFound();
@@ -49,36 +49,36 @@ namespace WebAPI.Controllers
         // PL Gdy przyjdzie żądanie http GET na adres "api/Posts/Search/title", zostanie uruchomiona metoda Get().
         // EN If a GET http request comes to the address "api/Posts/Search/title", the Get() method will be run.
         [HttpGet("Search/{title}")]
-        public ActionResult Get(string title)
+        public async Task<ActionResult> Get(string title)
         {
-            var posts = _postService.GetPostByTitle(title);
+            var posts = await _postService.GetPostByTitleAsync(title);
             return Ok(posts);
         }
 
         // PL Gdy przyjdzie żądanie http POST na adres "api/Posts", zostanie uruchomiona metoda Create(). 
         // EN If a POST http request comes to the address "api/Posts", the Create() method will be run.
         [HttpPost]
-        public ActionResult Create(CreatePostDto newPost)
+        public async Task<ActionResult> Create(CreatePostDto newPost)
         {
-            var post = _postService.AddNewPost(newPost);
+            var post = await _postService.AddNewPostAsync(newPost);
             return Created($"api/Posts/{post.Id}", post);
         }
 
         // PL Gdy przyjdzie żądanie http PUT na adres "api/Posts", zostanie uruchomiona metoda Update(). 
         // EN If a PUT http request comes to the address "api/Posts", the Update() method will be run.
         [HttpPut]
-        public ActionResult Update(UpdatePostDto updatePost)
+        public async Task<ActionResult> Update(UpdatePostDto updatePost)
         {
-            _postService.UpdatePost(updatePost);
+            await _postService.UpdatePostAsync(updatePost);
             return NoContent();
         }
 
         // PL Gdy przyjdzie żądanie http DELETE na adres "api/Posts/id", zostanie uruchomiona metoda Remove(). 
         // EN If a DELETE http request comes to the address "api/Posts/id", the Remove() method will be run.
         [HttpDelete]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            _postService.DeletePost(id);
+            await _postService.DeletePostAsync(id);
             return NoContent();
         }
     }

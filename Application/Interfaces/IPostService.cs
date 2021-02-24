@@ -14,12 +14,12 @@ namespace Application.Interfaces
     {
         // PL Sygnatury metod z klasy PostService.
         // EN The signatures of methods from the PostService class.
-        IEnumerable<PostDto> GetAllPosts();
-        PostDto GetPostById(int id);
-        IEnumerable<PostDto> GetPostByTitle(string title);
-        PostDto AddNewPost(CreatePostDto newPost);
-        void UpdatePost(UpdatePostDto updatePost);
-        void DeletePost(int id);
+        Task<IEnumerable<PostDto>> GetAllPostsAsync();
+        Task<PostDto> GetPostByIdAsync(int id);
+        Task<IEnumerable<PostDto>> GetPostByTitleAsync(string title);
+        Task<PostDto> AddNewPostAsync(CreatePostDto newPost);
+        Task UpdatePostAsync(UpdatePostDto updatePost);
+        Task DeletePostAsync(int id);
 
     }
 }
