@@ -27,15 +27,20 @@ namespace Application.Services
 
         // PL Implementacja metody GetAllPosts(), zwraca wszystkie posty i mapuje właściwości Post na PostDto.
         // EN Implementation the GetAllPosts () method, returns all posts, and maps Post properties to PostDto.
-        public async Task<IEnumerable<PostDto>> GetAllPostsAsync()
+        public async Task<IEnumerable<PostDto>> GetAllPostsAsync(int pageNumber, int pageSize)
         {
-            var posts = await _postRepository.GetAllAsync();
+            var posts = await _postRepository.GetAllAsync(pageNumber, pageSize);
             return posts.Select(post => new PostDto()
             {
                 Id = post.Id,
                 Title = post.Title,
                 Content = post.Content
             });
+        }
+
+        public async Task<int> GetAllPostsCountAsync()
+        {
+            return await _postRepository.GetAllCountAsync();
         }
 
         // PL Implementacja metody GetPostById(id), zwraca post o podanym id i mapuje właściwości Post na PostDto.
@@ -54,36 +59,36 @@ namespace Application.Services
 
         // PL Implementacja metody GetPostByTitle(title), zwraca posty zawierające podaną frazę w tytule i mapuje właściwości Post na PostDto.
         // EN Implementation the GetPostByTitle(title) method, returns posts containing the given phrase in the title and maps Post properties to PostDto.
-        public async Task<IEnumerable<PostDto>> GetPostByTitleAsync(string title)
-        {
-            var posts = await _postRepository.GetAllAsync();
+        //public async Task<IEnumerable<PostDto>> GetPostByTitleAsync(string title)
+        //{
+        //    var posts = await _postRepository.GetAllAsync(pageNumber, pageSize);
 
-            if (string.IsNullOrWhiteSpace(title))
-            {
-                return posts.Select(post => new PostDto()
-                {
-                    Id = post.Id,
-                    Title = post.Title,
-                    Content = post.Content
-                });
-            }
+        //    if (string.IsNullOrWhiteSpace(title))
+        //    {
+        //        return posts.Select(post => new PostDto()
+        //        {
+        //            Id = post.Id,
+        //            Title = post.Title,
+        //            Content = post.Content
+        //        });
+        //    }
 
-            var searched = new List<PostDto>();
+        //    var searched = new List<PostDto>();
 
-            foreach (var post in posts)
-            {
-                if (post.Title.ToLower().Contains(title.ToLower()))
-                {
-                    searched.Add(new PostDto()
-                        {
-                            Id = post.Id,
-                            Title = post.Title,
-                            Content = post.Content
-                        });
-                }
-            }
-            return searched.AsEnumerable();
-        }
+        //    foreach (var post in posts)
+        //    {
+        //        if (post.Title.ToLower().Contains(title.ToLower()))
+        //        {
+        //            searched.Add(new PostDto()
+        //                {
+        //                    Id = post.Id,
+        //                    Title = post.Title,
+        //                    Content = post.Content
+        //                });
+        //        }
+        //    }
+        //    return searched.AsEnumerable();
+        //}
 
         // PL Implementacja metody AddNewPost(newPost), zwraca nowo dodanego posta i mapuje właściwości CreatePostDto do Post i Post do PostDto.
         // EN Implementing the AddNewPost(newPost) method, a newly added post, and maps CreatePostDto props to Post and Post to PostDto.

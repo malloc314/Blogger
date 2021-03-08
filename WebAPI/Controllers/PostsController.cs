@@ -6,6 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.Filters;
+using WebAPI.Helpers;
+using WebAPI.Wrappers;
 
 namespace WebAPI.Controllers
 {
@@ -27,10 +30,13 @@ namespace WebAPI.Controllers
         // PL Gdy przyjdzie żądanie http GET na adres "api/Posts", zostanie uruchomiona metoda Get().
         // EN If a GET http request comes to the address "api/Posts", the Get() method will be run.
         [HttpGet]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult> Get([FromQuery] PaginationFilter paginationFilter)
         {
-            var posts = await _postService.GetAllPostsAsync();
-            return Ok(posts);
+            var validPaginationFilter = new PaginationFilter(paginationFilter.PageNumber, paginationFilter.PageSize);
+            var posts = await _postService.GetAllPostsAsync(validPaginationFilter.PageNumber, validPaginationFilter.PageSize);
+            var totalRecords = await _postService.GetAllPostsCountAsync();
+
+            return Ok(PaginationHelper.CreatePagedResponse(posts, validPaginationFilter, totalRecords));
         }
 
         // PL Gdy przyjdzie żądanie http GET na adres "api/Posts/Search/id", zostanie uruchomiona metoda Get().
@@ -43,17 +49,17 @@ namespace WebAPI.Controllers
             {
                 return NotFound();
             }
-            return Ok(posts);
+            return Ok(new Response<PostDto>(posts));
         }
 
         // PL Gdy przyjdzie żądanie http GET na adres "api/Posts/Search/title", zostanie uruchomiona metoda Get().
         // EN If a GET http request comes to the address "api/Posts/Search/title", the Get() method will be run.
-        [HttpGet("Search/{title}")]
-        public async Task<ActionResult> Get(string title)
-        {
-            var posts = await _postService.GetPostByTitleAsync(title);
-            return Ok(posts);
-        }
+        //[HttpGet("Search/{title}")]
+        //public async Task<ActionResult> Get(string title)
+        //{
+        //    var posts = await _postService.GetPostByTitleAsync(title);
+        //    return Ok(new Response<IEnumerable<PostDto>>(posts));
+        //}
 
         // PL Gdy przyjdzie żądanie http POST na adres "api/Posts", zostanie uruchomiona metoda Create(). 
         // EN If a POST http request comes to the address "api/Posts", the Create() method will be run.
@@ -61,7 +67,7 @@ namespace WebAPI.Controllers
         public async Task<ActionResult> Create(CreatePostDto newPost)
         {
             var post = await _postService.AddNewPostAsync(newPost);
-            return Created($"api/Posts/{post.Id}", post);
+            return Created($"api/Posts/{post.Id}", new Response<PostDto>(post));
         }
 
         // PL Gdy przyjdzie żądanie http PUT na adres "api/Posts", zostanie uruchomiona metoda Update(). 

@@ -25,9 +25,14 @@ namespace Infrastructure.Repositories
 
         // PL Metoda GetAll(), zwraca wszystkie posty.
         // EN The GetAll() method, returns all posts.
-        public async Task<IEnumerable<Post>> GetAllAsync()
+        public async Task<IEnumerable<Post>> GetAllAsync(int pageNumber, int pageSize)
         {
-            return await _context.Posts.ToListAsync();
+            return await _context.Posts.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+        }
+
+        public async Task<int> GetAllCountAsync()
+        {
+            return await _context.Posts.CountAsync();
         }
 
         // PL Metoda GetById(id), jako argument przyjmuję id, zwraca post o podanym id.
@@ -41,7 +46,6 @@ namespace Infrastructure.Repositories
         // EN The Add(post) method, returns the added post.
         public async Task<Post> AddAsync(Post post)
         {
-            //post.Id = _context.Posts.Count() + 4;
             post.Created = DateTime.UtcNow;
             
             var createdPost = await _context.Posts.AddAsync(post);
