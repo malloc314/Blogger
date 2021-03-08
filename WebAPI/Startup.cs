@@ -38,7 +38,7 @@ namespace WebAPI
             services.AddScoped<IPostService, PostService>();
 
             services.AddDbContext<BloggerContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("BloggerCS")));
+                options => options.UseSqlServer(Configuration.GetConnectionString("BloggerCSWin")));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
